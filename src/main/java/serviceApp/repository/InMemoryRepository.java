@@ -1,9 +1,11 @@
 package serviceApp.repository;
 
+import serviceApp.domain.BaseId;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryRepository<T extends Object> implements Repository<T> {
+public class InMemoryRepository<T extends BaseId> implements Repository<T> {
     List<T> database;
 
     public InMemoryRepository() {
