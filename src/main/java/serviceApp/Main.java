@@ -7,7 +7,6 @@ import serviceApp.repository.Repository;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
 import serviceApp.ui.MainConsole;
-
 public class Main {
     public static void main(String[] args) {
         Repository<Car> carRepository = new InMemoryRepository<>();

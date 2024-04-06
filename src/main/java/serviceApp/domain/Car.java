@@ -4,13 +4,13 @@ public class Car extends BaseId {
     private int id;
     private String model;
     private int yearAcquisition;
-    private int numKm;
+    private float numKm;
     private boolean hasWaranty;
 
     public Car() {
     }
 
-    public Car(int id, String model, int yearAcquisition, int numKm, boolean hasWaranty) {
+    public Car(int id, String model, int yearAcquisition, float numKm, boolean hasWaranty) {
         super(id);
         this.model = model;
         this.yearAcquisition = yearAcquisition;
@@ -36,7 +36,7 @@ public class Car extends BaseId {
         this.yearAcquisition = yearAcquisition;
     }
 
-    public int getNumKm() {
+    public float getNumKm() {
         return numKm;
     }
 
