@@ -19,6 +19,20 @@ public class UIManager {
         afiseaza("4. Meniu prelucrare date");
         afiseaza("0. Terminare program");
     }
+    public int optionClientMenu() {
+        clientMeniuOptions();
+        afiseaza("Alege o optiune");
+        int optiune = citIntreg();
+        return optiune;
+    }
+    public void clientMeniuOptions() {
+        afiseaza("");
+        afiseaza("1. Afiseaza toti clientii");
+        afiseaza("2. Adauga un client nou");
+        afiseaza("3. Actualizeaza un client");
+        afiseaza("4. Sterge un client");
+        afiseaza("0. Terminare program");
+    }
     public void afiseaza(String text) { System.out.println(text); }
     public <T> void afiseazaObiecte(List<T> obiecte) {
         for (T obiect : obiecte) {
