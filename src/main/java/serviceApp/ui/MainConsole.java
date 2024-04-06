@@ -1,5 +1,7 @@
 package serviceApp.ui;
 
+
+import serviceApp.domain.Client;
 import serviceApp.domain.Car;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
@@ -29,7 +31,7 @@ public class MainConsole {
                     runCarConsole();
                     break;
                 case 2:
-                    uiManager.afiseaza("Meniu Client");
+                    runClientConsole();
                     break;
                 case 3:
                     uiManager.afiseaza("Meniu Tranzactie");
@@ -46,7 +48,8 @@ public class MainConsole {
             optiune = uiManager.optiuneMeniuPrincipal();
         }
     }
-    // Car Menu Console (when closed, go back to main menu
+  
+   // Car Menu Console (when closed, go back to main menu
     public void runCarConsole() {
         int optiune = uiManager.optionCarMenu();
         while (optiune != 0) {
@@ -74,4 +77,29 @@ public class MainConsole {
             optiune = uiManager.optionCarMenu();
         }
     }
+
+    public void runClientConsole() {
+        int optiune = uiManager.optionClientMenu();
+        while (optiune != 0) {
+            switch (optiune) {
+                case 1:
+                    List<Client> list = clientService.showClientList();
+                    uiManager.afiseazaObiecte(list);
+                    break;
+                case 2:
+                    uiManager.afiseaza("Adauga un client nou");
+                    break;
+                case 3:
+                    uiManager.afiseaza("Actualizeaza un client");
+                    break;
+                case 4:
+                    uiManager.afiseaza("Sterge un client");
+                    break;
+                case 0:
+                    uiManager.afiseaza("Close Client Menu");
+                    break;
+                default:
+                    uiManager.afiseaza("Introduceti o optiune valida");
+            }
+            optiune = uiManager.optionClientMenu();
 }
