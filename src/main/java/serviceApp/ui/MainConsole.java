@@ -15,6 +15,7 @@ public class MainConsole {
 
     public MainConsole() {
     }
+
     public MainConsole(ClientService clientService,
                        CarService carService,
                        UIManager uiManager) {
@@ -48,8 +49,8 @@ public class MainConsole {
             optiune = uiManager.optiuneMeniuPrincipal();
         }
     }
-  
-   // Car Menu Console (when closed, go back to main menu
+
+    // Car Menu Console (when closed, go back to main menu
     public void runCarConsole() {
         int optiune = uiManager.optionCarMenu();
         while (optiune != 0) {
@@ -102,4 +103,6 @@ public class MainConsole {
                     uiManager.afiseaza("Introduceti o optiune valida");
             }
             optiune = uiManager.optionClientMenu();
+        }
+    }
 }
