@@ -57,6 +57,17 @@ public class MainConsole {
             switch (optiune) {
                 case 1:
                     uiManager.afiseaza("Add Car");
+                    int idNewCar = uiManager.citIntreg();
+                    boolean idValidated = carService.validateCarId(newCar);
+                    while (!idValidated) {
+                        uiManager.afiseaza("Duplicate or invalid ID!");
+                        idValidated = uiManager.citIntreg();
+                        idValidated = carService.validateId(idNewCar);
+                    }
+                    String nume = uiManager.cititString;
+                    ...
+                    Client clientNou= new Client(id, nume, ..)
+                    carService.addNewCar(Car.testCar);
                     break;
                 case 2:
                     uiManager.afiseaza("Show Cars List");
