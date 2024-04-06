@@ -1,4 +1,4 @@
-package serviceApp;
+package serviceApp.domain;
 
 public class Car {
     private int id;
