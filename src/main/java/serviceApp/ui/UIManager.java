@@ -10,6 +10,12 @@ public class UIManager {
         int optiune = citIntreg();
         return optiune;
     }
+    public int optionCarMenu() {
+        showCarMenuOptions();
+        afiseaza("Choose an option: ");
+        int optiune = citIntreg();
+        return optiune;
+    }
     // UIManager(print)
     public void afiseazaOptiuniMeniuPrincipal() {
         afiseaza("");
@@ -19,12 +25,14 @@ public class UIManager {
         afiseaza("4. Meniu prelucrare date");
         afiseaza("0. Terminare program");
     }
+  
     public int optionClientMenu() {
         clientMeniuOptions();
         afiseaza("Alege o optiune");
         int optiune = citIntreg();
         return optiune;
     }
+  
     public void clientMeniuOptions() {
         afiseaza("");
         afiseaza("1. Afiseaza toti clientii");
@@ -33,6 +41,16 @@ public class UIManager {
         afiseaza("4. Sterge un client");
         afiseaza("0. Terminare program");
     }
+  
+    public void showCarMenuOptions() {
+        afiseaza("");
+        afiseaza("1. Add Car");
+        afiseaza("2. Show Cars List");
+        afiseaza("3. Update Car Info");
+        afiseaza("4. Delete Car from List");
+        afiseaza("0. End program");
+    }
+
     public void afiseaza(String text) { System.out.println(text); }
     public <T> void afiseazaObiecte(List<T> obiecte) {
         for (T obiect : obiecte) {
