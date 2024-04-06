@@ -9,5 +9,4 @@ public class ClientService {
     public ClientService(Repository<Client> repository) {
         this.repository = repository;
     }
-
 }
