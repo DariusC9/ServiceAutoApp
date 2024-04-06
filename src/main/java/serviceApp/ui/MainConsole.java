@@ -1,7 +1,10 @@
 package serviceApp.ui;
 
+import serviceApp.domain.Car;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
+
+import java.util.List;
 
 public class MainConsole {
     private ClientService clientService;
@@ -53,6 +56,8 @@ public class MainConsole {
                     break;
                 case 2:
                     uiManager.afiseaza("Show Cars List");
+                    List<Car> carList = carService.showCarList();
+                    uiManager.afiseazaObiecte(carList);
                     break;
                 case 3:
                     uiManager.afiseaza("Update Car Info");
@@ -61,7 +66,7 @@ public class MainConsole {
                     uiManager.afiseaza("Delete Car from List");
                     break;
                 case 0:
-                    uiManager.afiseaza("Program ended!");
+                    uiManager.afiseaza("Close Car Menu");
                     break;
                 default:
                     uiManager.afiseaza("Choose a valid option!");
