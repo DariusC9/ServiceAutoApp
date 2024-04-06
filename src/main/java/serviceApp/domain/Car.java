@@ -1,31 +1,24 @@
 package serviceApp.domain;
 
-public class Car {
+public class Car extends BaseId {
     private int id;
     private String model;
     private int yearAcquisition;
     private int numKm;
     private boolean hasWaranty;
 
-    public Car() { }
+    public Car() {
+    }
 
     public Car(int id, String model, int yearAcquisition, int numKm, boolean hasWaranty) {
-        this.id = id;
+        super(id);
         this.model = model;
         this.yearAcquisition = yearAcquisition;
         this.numKm = numKm;
         this.hasWaranty = hasWaranty;
     }
 
-    public static Car testCar = new Car(0,"Model", 2004, 1000, false);
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static Car testCar = new Car(0, "Model", 2004, 1000, false);
 
     public String getModel() {
         return model;
@@ -62,11 +55,11 @@ public class Car {
     @Override
     public String toString() {
         return "Car{" +
-                "id=" + id +
-                ", model='" + model + '\'' +
-                ", yearAcquisition=" + yearAcquisition +
-                ", numKm=" + numKm +
-                ", hasWaranty=" + hasWaranty +
+                "id = " + super.getId() +
+                ", model = '" + model + '\'' +
+                ", yearAcquisition = " + yearAcquisition +
+                ", numKm = " + numKm +
+                ", hasWaranty = " + hasWaranty +
                 '}';
     }
 }

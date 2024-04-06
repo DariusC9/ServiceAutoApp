@@ -2,8 +2,7 @@ package serviceApp.domain;
 
 import java.time.LocalDate;
 
-public class Transaction {
-    private int id;
+public class Transaction extends BaseId {
     private int id_car;
     private int id_client;
     private float partsPrice;
@@ -14,20 +13,12 @@ public class Transaction {
     }
 
     public Transaction(int id, int id_car, int id_client, float partsPrice, float workPrice, LocalDate dateHour) {
-        this.id = id;
+        super(id);
         this.id_car = id_car;
         this.id_client = id_client;
         this.partsPrice = partsPrice;
         this.workPrice = workPrice;
         this.dateHour = dateHour;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getId_car() {
@@ -73,12 +64,12 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "id=" + id +
-                ", id_car=" + id_car +
-                ", id_client=" + id_client +
-                ", partsPrice=" + partsPrice +
-                ", workPrice=" + workPrice +
-                ", dateHour=" + dateHour +
+                "id = " + super.getId() +
+                ", id_car = " + id_car +
+                ", id_client = " + id_client +
+                ", partsPrice = " + partsPrice +
+                ", workPrice = " + workPrice +
+                ", dateHour = " + dateHour +
                 '}';
     }
 }
