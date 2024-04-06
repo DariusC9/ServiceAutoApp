@@ -23,7 +23,7 @@ public class MainConsole {
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    uiManager.afiseaza("Meniu Car");
+                    runCarConsole();
                     break;
                 case 2:
                     uiManager.afiseaza("Meniu Client");
@@ -41,6 +41,32 @@ public class MainConsole {
                     uiManager.afiseaza("Introduceti o optiune valida");
             }
             optiune = uiManager.optiuneMeniuPrincipal();
+        }
+    }
+    // Car Menu Console (when closed, go back to main menu
+    public void runCarConsole() {
+        int optiune = uiManager.optionCarMenu();
+        while (optiune != 0) {
+            switch (optiune) {
+                case 1:
+                    uiManager.afiseaza("Add Car");
+                    break;
+                case 2:
+                    uiManager.afiseaza("Show Cars List");
+                    break;
+                case 3:
+                    uiManager.afiseaza("Update Car Info");
+                    break;
+                case 4:
+                    uiManager.afiseaza("Delete Car from List");
+                    break;
+                case 0:
+                    uiManager.afiseaza("Program ended!");
+                    break;
+                default:
+                    uiManager.afiseaza("Choose a valid option!");
+            }
+            optiune = uiManager.optionCarMenu();
         }
     }
 }
