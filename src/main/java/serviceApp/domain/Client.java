@@ -1,10 +1,8 @@
 package serviceApp.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Client {
-    private int id;
+public class Client extends BaseId {
     private String lastName;
     private String firstName;
     private double cnp;
@@ -15,7 +13,7 @@ public class Client {
     }
 
     public Client(int id, String lastName, String firstName, double cnp, LocalDate birthday, LocalDate registrationDate) {
-        this.id = id;
+        super(id);
         this.lastName = lastName;
         this.firstName = firstName;
         this.cnp = cnp;
@@ -23,15 +21,7 @@ public class Client {
         this.registrationDate = registrationDate;
     }
 
-    public static Client testClient = new Client(1,"Nume","Prenume", 1213141516, LocalDate.now(), LocalDate.now());
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public static Client testClient = new Client(1, "Nume", "Prenume", 1213141516, LocalDate.now(), LocalDate.now());
 
     public String getLastName() {
         return lastName;
@@ -76,7 +66,7 @@ public class Client {
     @Override
     public String toString() {
         return "Client {" +
-                "id = " + id +
+                "id = " + super.getId() +
                 ", lastName = '" + lastName + '\'' +
                 ", firstName = '" + firstName + '\'' +
                 ", cnp=" + cnp +
