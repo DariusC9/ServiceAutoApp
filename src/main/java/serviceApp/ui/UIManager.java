@@ -1,5 +1,7 @@
 package serviceApp.ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -90,5 +92,25 @@ public class UIManager {
             afiseaza("Ati introdus o optiune invalida pentru optiunea aleasa");
             return cititString();
         }
+    }
+
+    public double citDouble() {
+        try {
+            Scanner s= new Scanner(System.in);
+            double i = s.nextDouble();
+            return i;
+        }
+        catch(Exception e) {
+            afiseaza("Please enter a valid number");
+            return citIntreg();
+        }
+    }
+
+    public  LocalDate addDate() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter a date [dd. MMM. yyyy]: ");
+        String str = scan.nextLine();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd. MMM. yyyy");
+        return LocalDate.parse(str, dtf);
     }
 }
