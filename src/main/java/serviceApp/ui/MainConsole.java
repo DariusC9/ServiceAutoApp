@@ -6,6 +6,7 @@ import serviceApp.domain.Car;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MainConsole {
@@ -133,7 +134,24 @@ public class MainConsole {
                     uiManager.afiseazaObiecte(list);
                     break;
                 case 2:
-                    uiManager.afiseaza("Adauga un client nou");
+                    uiManager.afiseaza("Add a new card client");
+                    uiManager.afiseaza("Add an unique id");
+                    int idNewClient = uiManager.citIntreg();
+                    boolean idValidated = carService.validateCarId(idNewClient);
+                    while (!idValidated) {
+                        uiManager.afiseaza("Duplicate or invalid ID!");
+                        idNewClient = uiManager.citIntreg();
+                        idValidated = carService.validateCarId(idNewClient);
+                    }
+                    uiManager.afiseaza("Add last name");
+                    String lastName = uiManager.cititString();
+                    uiManager.afiseaza("Add first name");
+                    String firstName = uiManager.cititString();
+                    uiManager.afiseaza("Add a cnp");
+                    double cnp = uiManager.citDouble(); // needs validation
+                    LocalDate birthday = uiManager.addDate();
+                    LocalDate registrationDate = uiManager.addDate();
+                    clientService.addNewClient(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
                     break;
                 case 3:
                     uiManager.afiseaza("Actualizeaza un client");
