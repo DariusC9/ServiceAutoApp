@@ -180,7 +180,14 @@ public class MainConsole {
                     clientService.updateCar(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
                     break;
                 case 4:
-                    uiManager.afiseaza("Sterge un client");
+                    uiManager.afiseaza("Insert the ID of the Client to be deleted: ");
+                    int idDeleteClient = uiManager.citIntreg();
+                    boolean idDeleteValidated = clientService.validateClientId(idDeleteClient);
+                    if (idDeleteValidated) {
+                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        break;
+                    }
+                    clientService.deleteClient(idDeleteClient);
                     break;
                 case 0:
                     uiManager.afiseaza("Close Client Menu");

@@ -36,4 +36,14 @@ public class ClientService {
         }
         return true;
     }
+
+    public void deleteClient(int idDeleteClient) {
+        List<Client> clientList = repository.findAll();
+        for (Client client : clientList) {
+            if (client.getId() == idDeleteClient) {
+                repository.delete(client);
+                break;
+            }
+        }
+    }
 }
