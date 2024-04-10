@@ -113,7 +113,14 @@ public class MainConsole {
                     carService.updateCar(updateCar);
                     break;
                 case 4:
-                    uiManager.afiseaza("Delete Car from List");
+                    uiManager.afiseaza("Insert the ID of the Car to be deleted: ");
+                    int idDeleteCar = uiManager.citIntreg();
+                    boolean idDeleteValidated = carService.validateCarId(idDeleteCar);
+                    if (idDeleteValidated) {
+                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        break;
+                    }
+                    carService.deleteCar(idDeleteCar);
                     break;
                 case 0:
                     uiManager.afiseaza("Close Car Menu");
