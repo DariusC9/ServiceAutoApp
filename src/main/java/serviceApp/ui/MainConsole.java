@@ -69,11 +69,13 @@ public class MainConsole {
                     float numKm = uiManager.citFloat();
                     uiManager.afiseaza("Add yes or no for waranty");
                     String waranty = uiManager.cititString();
-                    boolean war;
-                    if (waranty.equals("yes")) {
-                        
+                    boolean hasWaranty;
+                    if (waranty.equals("yes") || waranty.equals("y")) {
+                        hasWaranty = true;
+                    } else {
+                        hasWaranty = false;
                     }
-                    carService.addNewCar(Car.testCar);
+                    carService.addNewCar(new Car(idNewCar, model, yearAcquisition, numKm, hasWaranty));
                     break;
                 case 2:
                     uiManager.afiseaza("Show Cars List");
