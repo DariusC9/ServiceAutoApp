@@ -10,6 +10,8 @@ public class TransactionService {
     private Repository<Transaction> transactionRepository;
     private CarService carService;
     private ClientService clientService;
+
+    // Constructors
     public TransactionService() {
     }
 
@@ -22,10 +24,12 @@ public class TransactionService {
         this.transactionRepository.save(Transaction.testTransaction);
     }
 
+    // Display all transactions
     public List<Transaction> showTransactionList() {
         return transactionRepository.findAll();
     }
 
+    // Validate unique ID
     public boolean validateTransactionId (int idNewTransaction) {
         List<Transaction> transactionList = transactionRepository.findAll();
         for (Transaction transactionElement : transactionList) {
@@ -36,10 +40,12 @@ public class TransactionService {
         return true;
     }
 
+    // Validate existence of Client Card ID in database
     public boolean validateTransactionClientId(int idClient) {
         return !clientService.validateClientId(idClient);
     }
 
+    // Validate existence of Car ID in database
     public boolean validateTransactionCarId(int idCar) {
         return !carService.validateCarId(idCar);
     }

@@ -1,9 +1,9 @@
 package serviceApp.service;
 
-import serviceApp.domain.Car;
 import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientService {
@@ -45,5 +45,16 @@ public class ClientService {
                 break;
             }
         }
+    }
+
+    public List<Client> searchByLastName(String searchName) {
+        List<Client> cardList = repository.findAll();
+        List<Client> result = new ArrayList<>();
+        for (Client clientElem : cardList) {
+            if (clientElem.getLastName().equals(searchName)) {
+                result.add(clientElem);
+            }
+        }
+        return result;
     }
 }

@@ -17,6 +17,7 @@ public class MainConsole {
     private TransactionService transactionService;
     private UIManager uiManager;
 
+    // Constructors
     public MainConsole() {
     }
 
@@ -30,8 +31,9 @@ public class MainConsole {
         this.uiManager = uiManager;
     }
 
+    // Main Menu Console (when closed, terminate program)
     public void runMainConsole() {
-        int optiune = uiManager.optiuneMeniuPrincipal();
+        int optiune = uiManager.optionMainMenu();
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
@@ -44,30 +46,28 @@ public class MainConsole {
                     runTransactionConsole();
                     break;
                 case 4:
-                    uiManager.afiseaza("Search car");
-                    String searchModel = uiManager.cititString();
-                    List<Car> results = carService.searchByCarModel(searchModel);
-                    if(results.isEmpty()) {
-                        uiManager.afiseaza("There are no car based on the model " + searchModel);
+                    uiManager.displayText("Search car");
+                    String searchModel = uiManager.readString();
+                    List<Car> resultsCar = carService.searchByCarModel(searchModel);
+                    if(resultsCar.isEmpty()) {
+                        uiManager.displayText("There are no car based on the model " + searchModel);
                     } else {
-                        uiManager.afiseazaObiecte(results);
+                        uiManager.displayObjects(resultsCar);
                     }
                     break;
                 case 5:
-                    uiManager.afiseaza("Search client");
-                    /* asemanator cu 4
-                     uiManager.afiseaza("Search car");
-                    String searchModel = uiManager.cititString();
-                    List<Car> results = carService.searchByCarModel(searchModel);
-                    if(results.isEmpty()) {
-                        uiManager.afiseaza("There are no car based on the model " + searchModel);
+                    uiManager.displayText("Search client by last name");
+                    uiManager.displayText("Insert the name: ");
+                    String searchName = uiManager.readString();
+                    List<Client> resultsClient = clientService.searchByLastName(searchName);
+                    if(resultsClient.isEmpty()) {
+                        uiManager.displayText("There are no Cards for the inserted client name!" + searchName);
                     } else {
-                        uiManager.afiseazaObiecte(results);
+                        uiManager.displayObjects(resultsClient);
                     }
-                     */
                     break;
                 case 6:
-                    uiManager.afiseaza("Display transactions by sum");
+                    uiManager.displayText("Display transactions by sum");
                     /*
                     deci calculam total cost cand adaugam un transaction nou
                     total cost trebuie afisat in metoda toostring
@@ -78,41 +78,41 @@ public class MainConsole {
                      */
                     break;
                 case 7:
-                    uiManager.afiseaza("Display client cards by discounted work price");
+                    uiManager.displayText("Display client cards by discounted work price.");
                     break;
                 case 0:
-                    uiManager.afiseaza("End program");
+                    uiManager.displayText("End program");
                     break;
                 default:
-                    uiManager.afiseaza("Insert a valid option");
+                    uiManager.displayText("Insert a valid option!");
             }
-            optiune = uiManager.optiuneMeniuPrincipal();
+            optiune = uiManager.optionMainMenu();
         }
     }
 
-    // Car Menu Console (when closed, go back to main menu
+    // Car Menu Console (when closed, go back to main menu)
     public void runCarConsole() {
         int optiune = uiManager.optionCarMenu();
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    uiManager.afiseaza("Add new Car data:");
-                    uiManager.afiseaza("Unique ID: ");
-                    int idNewCar = uiManager.citIntreg();
+                    uiManager.displayText("Add new Car data:");
+                    uiManager.displayText("Unique ID: ");
+                    int idNewCar = uiManager.readInt();
                     boolean idValidated = carService.validateCarId(idNewCar);
                     while (!idValidated) {
-                        uiManager.afiseaza("Duplicate or invalid ID!");
-                        idNewCar = uiManager.citIntreg();
+                        uiManager.displayText("Duplicate or invalid ID!");
+                        idNewCar = uiManager.readInt();
                         idValidated = carService.validateCarId(idNewCar);
                     }
-                    uiManager.afiseaza("Car model: ");
-                    String model = uiManager.cititString();
-                    uiManager.afiseaza("Year of acquisition: ");
-                    int yearAcquisition = uiManager.citIntreg(); // needs validation
-                    uiManager.afiseaza("Number of kilometers: ");
-                    float numKm = uiManager.citFloat();
-                    uiManager.afiseaza("Does the car have waranty? (yes/no) ");
-                    String waranty = uiManager.cititString();
+                    uiManager.displayText("Car model: ");
+                    String model = uiManager.readString();
+                    uiManager.displayText("Year of acquisition: ");
+                    int yearAcquisition = uiManager.readInt(); // needs validation
+                    uiManager.displayText("Number of kilometers: ");
+                    float numKm = uiManager.readFloat();
+                    uiManager.displayText("Does the car have waranty? (yes/no) ");
+                    String waranty = uiManager.readString();
                     boolean hasWaranty;
                     if (waranty.equals("yes") || waranty.equals("y")) {
                         hasWaranty = true;
@@ -122,26 +122,26 @@ public class MainConsole {
                     carService.addNewCar(new Car(idNewCar, model, yearAcquisition, numKm, hasWaranty));
                     break;
                 case 2:
-                    uiManager.afiseaza("Show Cars List");
+                    uiManager.displayText("Show Cars List");
                     List<Car> carList = carService.showCarList();
-                    uiManager.afiseazaObiecte(carList);
+                    uiManager.displayObjects(carList);
                     break;
                 case 3:
-                    uiManager.afiseaza("Insert the ID for the car that gets updated: ");
-                    int idUpdateCar = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID for the car that gets updated: ");
+                    int idUpdateCar = uiManager.readInt();
                     boolean idUpdateValidated = carService.validateCarId(idUpdateCar);
                     if (idUpdateValidated) {
-                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
-                    uiManager.afiseaza("Model: ");
-                    String modelUpdate = uiManager.cititString();
-                    uiManager.afiseaza("Year: ");
-                    int yearAcquisitionUpdate = uiManager.citIntreg();   // needs validation
-                    uiManager.afiseaza("Number of Km: ");
-                    float numKmUpdate = uiManager.citFloat();
-                    uiManager.afiseaza("Has waranty (yes/no): ");
-                    String warantyUpdate = uiManager.cititString();     // needs validation
+                    uiManager.displayText("Model: ");
+                    String modelUpdate = uiManager.readString();
+                    uiManager.displayText("Year: ");
+                    int yearAcquisitionUpdate = uiManager.readInt();   // needs validation
+                    uiManager.displayText("Number of Km: ");
+                    float numKmUpdate = uiManager.readFloat();
+                    uiManager.displayText("Has waranty (yes/no): ");
+                    String warantyUpdate = uiManager.readString();     // needs validation
                     boolean hasWarantyUpdate;
                     if (warantyUpdate.equals("yes") || warantyUpdate.equals("y")) {
                         hasWarantyUpdate = true;
@@ -152,169 +152,185 @@ public class MainConsole {
                     carService.updateCar(updateCar);
                     break;
                 case 4:
-                    uiManager.afiseaza("Insert the ID of the Car to be deleted: ");
-                    int idDeleteCar = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID of the Car to be deleted: ");
+                    int idDeleteCar = uiManager.readInt();
                     boolean idDeleteValidated = carService.validateCarId(idDeleteCar);
                     if (idDeleteValidated) {
-                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
                     carService.deleteCar(idDeleteCar);
                     break;
                 case 0:
-                    uiManager.afiseaza("Close Car Menu");
+                    uiManager.displayText("Close Car Menu");
                     break;
                 default:
-                    uiManager.afiseaza("Choose a valid option!");
+                    uiManager.displayText("Choose a valid option!");
             }
             optiune = uiManager.optionCarMenu();
         }
     }
 
+    // Client Card Menu Console (when closed, go back to main menu)
     private void runClientConsole() {
         int optiune = uiManager.optionClientMenu();
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    uiManager.afiseaza("Add a new transaction");
-                    uiManager.afiseaza("Add an unique id");
-                    int idNewTransaction = uiManager.citIntreg();
-                    boolean idValidated = clientService.validateClientId(idNewTransaction);
+                    uiManager.displayText("Add a new Client Card");
+                    uiManager.displayText("Add an unique id");
+                    int idNewClient = uiManager.readInt();
+                    boolean idValidated = clientService.validateClientId(idNewClient);
                     while (!idValidated) {
-                        uiManager.afiseaza("Duplicate or invalid ID!");
-                        idNewTransaction = uiManager.citIntreg();
-                        idValidated = carService.validateCarId(idNewTransaction);
+                        uiManager.displayText("Duplicate or invalid ID!");
+                        idNewClient = uiManager.readInt();
+                        idValidated = clientService.validateClientId(idNewClient);
                     }
-                    uiManager.afiseaza("Add last name");
-                    String lastName = uiManager.cititString();
-                    uiManager.afiseaza("Add first name");
-                    String firstName = uiManager.cititString();
-                    uiManager.afiseaza("Add a cnp");
-                    double cnp = uiManager.citDouble(); // needs validation
-                    LocalDate birthday = uiManager.addDate();
+                    uiManager.displayText("Add last name");
+                    String lastName = uiManager.readString();
+                    uiManager.displayText("Add first name");
+                    String firstName = uiManager.readString();
+                    uiManager.displayText("Add a cnp");
+                    double cnp = uiManager.readDouble(); // TODO: needs validation
+
+                    LocalDate birthday = uiManager.addDate(); //TODO: NEEDS ERROR handling
                     LocalDate registrationDate = uiManager.addDate();
-                    clientService.addNewClient(new Client(idNewTransaction, lastName, firstName, cnp, birthday, registrationDate));
+                    clientService.addNewClient(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
                     break;
                 case 2:
                     List<Client> list = clientService.showClientList();
-                    uiManager.afiseazaObiecte(list);
+                    uiManager.displayObjects(list);
                     break;
                 case 3:
-                    uiManager.afiseaza("Insert the ID for the client that gets updated:  ");
-                    int idUpdateClient = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID for the client that gets updated:  ");
+                    int idUpdateClient = uiManager.readInt();
                     boolean idUpdateValidated = clientService.validateClientId(idUpdateClient);
                     while (idUpdateValidated) {
-                        uiManager.afiseaza("Duplicate or invalid ID!");
-                        idUpdateClient = uiManager.citIntreg();
+                        uiManager.displayText("Duplicate or invalid ID!");
+                        idUpdateClient = uiManager.readInt();
                         idUpdateValidated = clientService.validateClientId(idUpdateClient);
                     }
-                    uiManager.afiseaza("Add last name");
-                    String lastNameUpdate = uiManager.cititString();
-                    uiManager.afiseaza("Add first name");
-                    String firstNameUpdate = uiManager.cititString();
-                    uiManager.afiseaza("Add a cnp");
-                    double cnpUpdate = uiManager.citDouble(); // needs validation
-                    LocalDate birthdayUpdate = uiManager.addDate();
+                    uiManager.displayText("Add last name");
+                    String lastNameUpdate = uiManager.readString();
+                    uiManager.displayText("Add first name");
+                    String firstNameUpdate = uiManager.readString();
+                    uiManager.displayText("Add a cnp");
+                    double cnpUpdate = uiManager.readDouble(); // TODO: needs validation
+                    LocalDate birthdayUpdate = uiManager.addDate(); //TODO: NEEDS ERROR handling
                     LocalDate registrationDateUpdate = uiManager.addDate();
                     clientService.updateCar(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
                     break;
                 case 4:
-                    uiManager.afiseaza("Insert the ID of the Client to be deleted: ");
-                    int idDeleteClient = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID of the Client to be deleted: ");
+                    int idDeleteClient = uiManager.readInt();
                     boolean idDeleteValidated = clientService.validateClientId(idDeleteClient);
                     if (idDeleteValidated) {
-                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
                     clientService.deleteClient(idDeleteClient);
                     break;
                 case 0:
-                    uiManager.afiseaza("Close Client Menu");
+                    uiManager.displayText("Close Client Menu");
                     break;
                 default:
-                    uiManager.afiseaza("Introduceti o optiune valida");
+                    uiManager.displayText("Insert a valid option!");
             }
             optiune = uiManager.optionClientMenu();
         }
     }
+
+    // Transaction Menu Console (when closed, go back to main menu)
     public void runTransactionConsole() {
         int optiune = uiManager.optionTransactionMenu();
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    uiManager.afiseaza("Add a new transaction");
-                    uiManager.afiseaza("Add an unique id");
-                    int idNewTrans = uiManager.citIntreg();
+                    uiManager.displayText("Add a new transaction");
+                    uiManager.displayText("Add an unique id");
+                    int idNewTrans = uiManager.readInt();
                     boolean idValidated = transactionService.validateTransactionId(idNewTrans);
                     while (!idValidated) {
-                        uiManager.afiseaza("Duplicate or invalid ID!");
-                        idNewTrans = uiManager.citIntreg();
+                        uiManager.displayText("Duplicate or invalid ID!");
+                        idNewTrans = uiManager.readInt();
                         idValidated = transactionService.validateTransactionId(idNewTrans);
                     }
-                    uiManager.afiseaza("Add id car");
-                    int idCar = uiManager.citIntreg();
-                    boolean idCarValidated = transactionService.validateTransactionId(idCar);
+                    uiManager.displayText("Add id car");
+                    int idCar = uiManager.readInt();
+                    boolean idCarValidated = transactionService.validateTransactionCarId(idCar);
                     while (!idCarValidated) {
-                        uiManager.afiseaza("Needs a valid car id!");
-                        idCar = uiManager.citIntreg();
-                        idCarValidated = transactionService.validateTransactionId(idCar);
+                        uiManager.displayText("Needs a valid car id (car must be in the database)!");
+                        idCar = uiManager.readInt();
+                        idCarValidated = transactionService.validateTransactionCarId(idCar);
                     }
-                    uiManager.afiseaza("Add id client. If there is no client enter 0");
-                    int idClient = uiManager.citIntreg();
-                    boolean idClientValidated = transactionService.validateTransactionId(idClient);
+                    uiManager.displayText("Add id client. If there is no client enter 0");
+                    int idClient = uiManager.readInt();
+                    boolean idClientValidated = transactionService.validateTransactionClientId(idClient);
                     while (!idClientValidated && idClient != 0) {
-                        uiManager.afiseaza("Needs a valid cliend id!");
-                        idClient = uiManager.citIntreg();
-                        idClientValidated = transactionService.validateTransactionId(idClient);
+                        uiManager.displayText("Needs a valid client id (client must be in database)!");
+                        idClient = uiManager.readInt();
+                        idClientValidated = transactionService.validateTransactionClientId(idClient);
                     }
-                    uiManager.afiseaza("Add parts price");
-                    float partsPrice = uiManager.citFloat();
-                    uiManager.afiseaza("Add work price");
-                    float workPrice = uiManager.citFloat();
-                    uiManager.afiseaza("Add date repair date");
-                    LocalDate dateHour = uiManager.addDate();
+                    uiManager.displayText("Add parts price");
+                    float partsPrice = uiManager.readFloat();
+                    uiManager.displayText("Add work price");
+                    float workPrice = uiManager.readFloat();
+                    uiManager.displayText("Add date repair date");
+                    LocalDate dateHour = uiManager.addDate(); //TODO: NEEDS ERROR handling
                     transactionService.addNewTransaction(new Transaction(idNewTrans, idCar, idClient, partsPrice, workPrice, dateHour));
                     break;
                 case 2:
                     List<Transaction> list = transactionService.showTransactionList();
-                    uiManager.afiseazaObiecte(list);
+                    uiManager.displayObjects(list);
                 break;
                 case 3:
-                    uiManager.afiseaza("Insert the ID for the transaction that gets updated:  ");
-                    int idUpdateTransaction = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID for the transaction that gets updated:  ");
+                    int idUpdateTransaction = uiManager.readInt();
                     boolean idUpdateValidated = transactionService.validateTransactionId(idUpdateTransaction);
                     while (idUpdateValidated) {
-                        uiManager.afiseaza("Duplicate or invalid ID!");
-                        idUpdateTransaction = uiManager.citIntreg();
+                        uiManager.displayText("Duplicate or invalid ID!");
+                        idUpdateTransaction = uiManager.readInt();
                         idUpdateValidated = transactionService.validateTransactionId(idUpdateTransaction);
                     }
-                    uiManager.afiseaza("Add id car");
-                    int idCarUpdate = uiManager.citIntreg(); // needs validation as per add  function
-                    uiManager.afiseaza("Add id client. If there is no client enter 0");
-                    int idClientUpdate = uiManager.citIntreg(); // needs validation as per add  function
-                    uiManager.afiseaza("Add parts price");
-                    float partsPriceUpdate = uiManager.citFloat();
-                    uiManager.afiseaza("Add work price");
-                    float workPriceUpdate = uiManager.citFloat();
-                    uiManager.afiseaza("Add date repair date");
-                    LocalDate dateHourUpdate = uiManager.addDate();
+                    uiManager.displayText("Add id car");
+                    int idCarUpdate = uiManager.readInt(); // needs validation as per add  function
+                    boolean idCarUpdateValidated = transactionService.validateTransactionCarId(idCarUpdate);
+                    while (!idCarUpdateValidated) {
+                        uiManager.displayText("Needs a valid car id (car must be in the database)!");
+                        idCarUpdate = uiManager.readInt();
+                        idCarUpdateValidated = transactionService.validateTransactionCarId(idCarUpdate);
+                    }
+                    uiManager.displayText("Add id client. If there is no client enter 0");
+                    int idClientUpdate = uiManager.readInt(); // needs validation as per add  function
+                    boolean idClientUpdateValidated = transactionService.validateTransactionClientId(idClientUpdate);
+                    while (!idClientUpdateValidated && idClientUpdate != 0) {
+                        uiManager.displayText("Needs a valid client id!");
+                        idClientUpdate = uiManager.readInt();
+                        idClientUpdateValidated = transactionService.validateTransactionClientId(idClientUpdate);
+                    }
+                    uiManager.displayText("Add parts price");
+                    float partsPriceUpdate = uiManager.readFloat();
+                    uiManager.displayText("Add work price");
+                    float workPriceUpdate = uiManager.readFloat();
+                    uiManager.displayText("Add repair date");
+                    LocalDate dateHourUpdate = uiManager.addDate(); //TODO: NEEDS ERROR handling
                     transactionService.updateTransaction(new Transaction(idUpdateTransaction, idCarUpdate, idClientUpdate, partsPriceUpdate, workPriceUpdate, dateHourUpdate));
                     break;
                 case 4:
-                    uiManager.afiseaza("Insert the ID of the transaction to be deleted: ");
-                    int idDeleteTransaction = uiManager.citIntreg();
+                    uiManager.displayText("Insert the ID of the transaction to be deleted: ");
+                    int idDeleteTransaction = uiManager.readInt();
                     boolean idDeleteValidated = transactionService.validateTransactionId(idDeleteTransaction);
                     if (idDeleteValidated) {
-                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
                     transactionService.deleteTransaction(idDeleteTransaction);
                     break;
                 case 0:
-                    uiManager.afiseaza("Close Transaction Menu");
+                    uiManager.displayText("Close Transaction Menu");
                     break;
                 default:
-                    uiManager.afiseaza("Introduceti o optiune valida");
+                    uiManager.displayText("Introduceti o optiune valida");
             }
             optiune = uiManager.optionTransactionMenu();
         }
