@@ -21,6 +21,8 @@ public class Transaction extends BaseId {
         this.dateHour = dateHour;
     }
 
+    public static Transaction testTransaction = new Transaction(1, 0, 1, 179, 300, LocalDate.now());
+
     public int getId_car() {
         return id_car;
     }
