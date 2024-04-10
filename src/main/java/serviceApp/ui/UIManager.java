@@ -6,128 +6,143 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UIManager {
-    public int optiuneMeniuPrincipal() {
-        afiseazaOptiuniMeniuPrincipal();
-        afiseaza("Alege o optiune");
-        int optiune = citIntreg();
-        return optiune;
-    }
-    public int optionCarMenu() {
-        showCarMenuOptions();
-        afiseaza("Choose an option: ");
-        int optiune = citIntreg();
-        return optiune;
+    // Various Menu Options
+    public int optionMainMenu() {
+        displayMainMenuOption();
+        displayText("Insert an option: ");
+        int option = readInt();
+        return option;
     }
 
-    // UIManager(print)
-    public void afiseazaOptiuniMeniuPrincipal() {
-        afiseaza("");
-        afiseaza("1. Operatii CRUD Masina");
-        afiseaza("2. Operatii CRUD Client");
-        afiseaza("3. Operatii CRUD Tranzactie");
-        afiseaza("4. Meniu prelucrare date");
-        afiseaza("0. Terminare program");
+    public int optionCarMenu() {
+        showCarMenuOptions();
+        displayText("Choose an option: ");
+        int option = readInt();
+        return option;
+    }
+
+    public void displayMainMenuOption() {
+        displayText("");
+        displayText("1. CRUD Menu Car");
+        displayText("2. CRUD Menu Client Card");
+        displayText("3. CRUD Menu Transactions");
+        displayText("4. Search Car in database");
+        displayText("5. Search Client Card by Last Name");
+        displayText("6. Display transactions by sum");
+        displayText("7. Display Client Cards by discounted work price");
+        displayText("0. End program");
     }
   
     public int optionClientMenu() {
-        clientMeniuOptions();
-        afiseaza("Alege o optiune");
-        int optiune = citIntreg();
-        return optiune;
+        clientMenuOptions();
+        displayText("Insert an option: ");
+        int option = readInt();
+        return option;
     }
   
-    public void clientMeniuOptions() {
-        afiseaza("");
-        afiseaza("1. Afiseaza toti clientii");
-        afiseaza("2. Adauga un client nou");
-        afiseaza("3. Actualizeaza un client");
-        afiseaza("4. Sterge un client");
-        afiseaza("0. Terminare program");
+    public void clientMenuOptions() {
+        displayText("");
+        displayText("1. Add new Client Card");
+        displayText("2. Display all Client Cards");
+        displayText("3. Update Client Card info");
+        displayText("4. Delete Client Card");
+        displayText("0. End Program");
     }
   
     public void showCarMenuOptions() {
-        afiseaza("");
-        afiseaza("1. Add Car");
-        afiseaza("2. Show Cars List");
-        afiseaza("3. Update Car Info");
-        afiseaza("4. Delete Car from List");
-        afiseaza("0. End program");
+        displayText("");
+        displayText("1. Add new Car");
+        displayText("2. Display all Cars");
+        displayText("3. Update Car Info");
+        displayText("4. Delete Car from database");
+        displayText("0. End program");
     }
 
     public int optionTransactionMenu() {
         transactionMenuOptions();
-        afiseaza("Choose an option: ");
-        int optiune = citIntreg();
-        return optiune;
+        displayText("Choose an option: ");
+        int option = readInt();
+        return option;
     }
 
     public void transactionMenuOptions() {
-        afiseaza("");
-        afiseaza("1. Create a new transaction");
-        afiseaza("2. Show all transactions");
-        afiseaza("3. Update a transaction");
-        afiseaza("4. Delete a transaction");
-        afiseaza("0. End program");
+        displayText("");
+        displayText("1. Add a new transaction");
+        displayText("2. Show all transactions");
+        displayText("3. Update a transaction");
+        displayText("4. Delete a transaction");
+        displayText("0. End program");
     }
 
-    public void afiseaza(String text) { System.out.println(text); }
-    public <T> void afiseazaObiecte(List<T> obiecte) {
+    public void displayText(String text) { System.out.println(text); }
+
+    public <T> void displayObjects(List<T> obiecte) {
         for (T obiect : obiecte) {
             System.out.println(obiect);
         }
     }
-    // user input
-    public int citIntreg() {
+
+    // User Input Validation
+    public int readInt() {
         try {
-            Scanner s= new Scanner(System.in);
-            int i=s.nextInt();
+            Scanner s = new Scanner(System.in);
+            int i = s.nextInt();
             return i;
         }
         catch(Exception e) {
-            afiseaza("Va rugam sa introduceti un numar valid");
-            return citIntreg();
+            displayText("Please enter a valid number");
+            return readInt();
         }
     }
-    public float citFloat() {
+
+    public float readFloat() {
         try {
-            Scanner s= new Scanner(System.in);
-            float i=s.nextFloat();
+            Scanner s = new Scanner(System.in);
+            float i = s.nextFloat();
             return i;
         }
         catch(Exception e) {
-            afiseaza("Va rugam sa introduceti un numar valid");
-            return citIntreg();
+            displayText("Please insert a valid number");
+            return readFloat();
         }
     }
-    public String cititString() {
+
+    public String readString() {
         try {
             Scanner s = new Scanner(System.in);
             String cuvant = s.nextLine();
             return cuvant;
         }
         catch(Exception e) {
-            afiseaza("Ati introdus o optiune invalida pentru optiunea aleasa");
-            return cititString();
+            displayText("Please enter a valid text");
+            return readString();
         }
     }
 
-    public double citDouble() {
+    public double readDouble() {
         try {
-            Scanner s= new Scanner(System.in);
+            Scanner s = new Scanner(System.in);
             double i = s.nextDouble();
             return i;
         }
         catch(Exception e) {
-            afiseaza("Please enter a valid number");
-            return citIntreg();
+            displayText("Please enter a valid number");
+            return readDouble();
         }
     }
 
     public  LocalDate addDate() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Enter a date [M/d/yyyy]: ");
-        String str = scan.nextLine();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
-        return LocalDate.parse(str, dateFormat);
+        //TODO: NEEDS ERROR HANDLING
+        try {
+            Scanner scan = new Scanner(System.in);
+            System.out.print("Enter a date [M/d/yyyy]: ");
+            String str = scan.nextLine();
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
+            return LocalDate.parse(str, dateFormat);
+        }
+        catch (Exception e) {
+            displayText("Please insert a valid date [M/d/yyyy]");
+            return addDate();
+        }
     }
 }
