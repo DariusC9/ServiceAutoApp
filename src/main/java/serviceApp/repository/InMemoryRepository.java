@@ -31,5 +31,12 @@ public class InMemoryRepository<T extends BaseId> implements Repository<T> {
     }
 
     @Override
-    public void delete(T object) { database.remove(object); }
+    public void delete(T object) {
+        for (int i = 0; i < database.size(); i++) {
+            if (database.get(i).getId() == object.getId()) {
+                database.remove(i);
+                System.out.println("DATA DELETED");
+            }
+        }
+    }
 }

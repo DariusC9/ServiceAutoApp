@@ -41,4 +41,14 @@ public class CarService {
     public void updateCar(Car updateCar) {
         carRepository.update(updateCar);
     }
+
+    public void deleteCar(int idDeleteCar) {
+        List<Car> carList = carRepository.findAll();
+        for (Car carElem : carList) {
+            if (carElem.getId() == idDeleteCar) {
+                carRepository.delete(carElem);
+                break;
+            }
+        }
+    }
 }
