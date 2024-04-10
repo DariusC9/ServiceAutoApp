@@ -56,7 +56,8 @@ public class MainConsole {
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    uiManager.afiseaza("Add Car");
+                    uiManager.afiseaza("Add new Car data:");
+                    uiManager.afiseaza("Unique ID: ");
                     int idNewCar = uiManager.citIntreg();
                     boolean idValidated = carService.validateCarId(idNewCar);
                     while (!idValidated) {
@@ -64,10 +65,13 @@ public class MainConsole {
                         idNewCar = uiManager.citIntreg();
                         idValidated = carService.validateCarId(idNewCar);
                     }
+                    uiManager.afiseaza("Car model: ");
                     String model = uiManager.cititString();
+                    uiManager.afiseaza("Year of acquisition: ");
                     int yearAcquisition = uiManager.citIntreg(); // needs validation
+                    uiManager.afiseaza("Number of kilometers: ");
                     float numKm = uiManager.citFloat();
-                    uiManager.afiseaza("Add yes or no for waranty");
+                    uiManager.afiseaza("Does the car have waranty? (yes/no) ");
                     String waranty = uiManager.cititString();
                     boolean hasWaranty;
                     if (waranty.equals("yes") || waranty.equals("y")) {
@@ -83,7 +87,29 @@ public class MainConsole {
                     uiManager.afiseazaObiecte(carList);
                     break;
                 case 3:
-                    uiManager.afiseaza("Update Car Info");
+                    uiManager.afiseaza("Insert the ID for the car that gets updated: ");
+                    int idUpdateCar = uiManager.citIntreg();
+                    boolean idUpdateValidated = carService.validateCarId(idUpdateCar);
+                    if (idUpdateValidated) {
+                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        break;
+                    }
+                    uiManager.afiseaza("Model: ");
+                    String modelUpdate = uiManager.cititString();
+                    uiManager.afiseaza("Year: ");
+                    int yearAcquisitionUpdate = uiManager.citIntreg();   // needs validation
+                    uiManager.afiseaza("Number of Km: ");
+                    float numKmUpdate = uiManager.citFloat();
+                    uiManager.afiseaza("Has waranty (yes/no): ");
+                    String warantyUpdate = uiManager.cititString();     // needs validation
+                    boolean hasWarantyUpdate;
+                    if (warantyUpdate.equals("yes") || warantyUpdate.equals("y")) {
+                        hasWarantyUpdate = true;
+                    } else {
+                        hasWarantyUpdate = false;
+                    }
+                    Car updateCar = new Car(idUpdateCar, modelUpdate, yearAcquisitionUpdate, numKmUpdate, hasWarantyUpdate);
+                    carService.updateCar(updateCar);
                     break;
                 case 4:
                     uiManager.afiseaza("Delete Car from List");

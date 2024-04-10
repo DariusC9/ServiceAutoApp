@@ -33,4 +33,12 @@ public class CarService {
         }
         return true;
     }
+
+    public void addNewCar(Car car) {
+        carRepository.save(car);
+    }
+
+    public void updateCar(Car updateCar) {
+        carRepository.update(updateCar);
+    }
 }
