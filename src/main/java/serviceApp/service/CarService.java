@@ -3,7 +3,6 @@ package serviceApp.service;
 import serviceApp.domain.BaseId;
 import serviceApp.domain.Car;
 import serviceApp.repository.Repository;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -28,7 +27,7 @@ public class CarService {
     public boolean validateCarId (int idNewCar) {
         List<Car> carList = carRepository.findAll();
         for (Car carElement : carList) {
-            if (carElement.getId() == newCar.getId()) {
+            if (carElement.getId() == idNewCar) {
                 return false;
             }
         }

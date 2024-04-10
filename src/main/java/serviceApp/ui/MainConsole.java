@@ -58,15 +58,21 @@ public class MainConsole {
                 case 1:
                     uiManager.afiseaza("Add Car");
                     int idNewCar = uiManager.citIntreg();
-                    boolean idValidated = carService.validateCarId(newCar);
+                    boolean idValidated = carService.validateCarId(idNewCar);
                     while (!idValidated) {
                         uiManager.afiseaza("Duplicate or invalid ID!");
-                        idValidated = uiManager.citIntreg();
-                        idValidated = carService.validateId(idNewCar);
+                        idNewCar = uiManager.citIntreg();
+                        idValidated = carService.validateCarId(idNewCar);
                     }
-                    String nume = uiManager.cititString;
-                    ...
-                    Client clientNou= new Client(id, nume, ..)
+                    String model = uiManager.cititString();
+                    int yearAcquisition = uiManager.citIntreg(); // needs validation
+                    float numKm = uiManager.citFloat();
+                    uiManager.afiseaza("Add yes or no for waranty");
+                    String waranty = uiManager.cititString();
+                    boolean war;
+                    if (waranty.equals("yes")) {
+                        
+                    }
                     carService.addNewCar(Car.testCar);
                     break;
                 case 2:
