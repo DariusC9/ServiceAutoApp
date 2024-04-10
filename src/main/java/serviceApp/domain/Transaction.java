@@ -8,6 +8,7 @@ public class Transaction extends BaseId {
     private float partsPrice;
     private float workPrice;
     private LocalDate dateHour;
+    private float totalCost = 0;
 
     public Transaction() {
     }
@@ -61,6 +62,14 @@ public class Transaction extends BaseId {
 
     public void setDateHour(LocalDate dateHour) {
         this.dateHour = dateHour;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
     }
 
     @Override

@@ -44,13 +44,47 @@ public class MainConsole {
                     runTransactionConsole();
                     break;
                 case 4:
-                    uiManager.afiseaza("Meniu Prelucrare");
+                    uiManager.afiseaza("Search car");
+                    String searchModel = uiManager.cititString();
+                    List<Car> results = carService.searchByCarModel(searchModel);
+                    if(results.isEmpty()) {
+                        uiManager.afiseaza("There are no car based on the model " + searchModel);
+                    } else {
+                        uiManager.afiseazaObiecte(results);
+                    }
+                    break;
+                case 5:
+                    uiManager.afiseaza("Search client");
+                    /* asemanator cu 4
+                     uiManager.afiseaza("Search car");
+                    String searchModel = uiManager.cititString();
+                    List<Car> results = carService.searchByCarModel(searchModel);
+                    if(results.isEmpty()) {
+                        uiManager.afiseaza("There are no car based on the model " + searchModel);
+                    } else {
+                        uiManager.afiseazaObiecte(results);
+                    }
+                     */
+                    break;
+                case 6:
+                    uiManager.afiseaza("Display transactions by sum");
+                    /*
+                    deci calculam total cost cand adaugam un transaction nou
+                    total cost trebuie afisat in metoda toostring
+                    in transactionService se face o metodat de ordonare care returneaza o lista ordonata
+                    in cadrul metodei returnezi din repo toate transazctile
+                    adaugi toate tranzactile din interval intr-o lista noua
+                    returnezi lista in console
+                     */
+                    break;
+                case 7:
+                    uiManager.afiseaza("Display client cards by discounted work price");
                     break;
                 case 0:
-                    uiManager.afiseaza("Program finalizat");
+                    uiManager.afiseaza("End program");
                     break;
                 default:
-                    uiManager.afiseaza("Introduceti o optiune valida");
+                    uiManager.afiseaza("Insert a valid option");
             }
             optiune = uiManager.optiuneMeniuPrincipal();
         }
@@ -218,9 +252,21 @@ public class MainConsole {
                         idValidated = transactionService.validateTransactionId(idNewTrans);
                     }
                     uiManager.afiseaza("Add id car");
-                    int idCar = uiManager.citIntreg(); // needs validation
+                    int idCar = uiManager.citIntreg();
+                    boolean idCarValidated = transactionService.validateTransactionId(idCar);
+                    while (!idCarValidated) {
+                        uiManager.afiseaza("Needs a valid car id!");
+                        idCar = uiManager.citIntreg();
+                        idCarValidated = transactionService.validateTransactionId(idCar);
+                    }
                     uiManager.afiseaza("Add id client. If there is no client enter 0");
-                    int idClient = uiManager.citIntreg(); // needs validation
+                    int idClient = uiManager.citIntreg();
+                    boolean idClientValidated = transactionService.validateTransactionId(idClient);
+                    while (!idClientValidated && idClient != 0) {
+                        uiManager.afiseaza("Needs a valid cliend id!");
+                        idClient = uiManager.citIntreg();
+                        idClientValidated = transactionService.validateTransactionId(idClient);
+                    }
                     uiManager.afiseaza("Add parts price");
                     float partsPrice = uiManager.citFloat();
                     uiManager.afiseaza("Add work price");
@@ -243,9 +289,9 @@ public class MainConsole {
                         idUpdateValidated = transactionService.validateTransactionId(idUpdateTransaction);
                     }
                     uiManager.afiseaza("Add id car");
-                    int idCarUpdate = uiManager.citIntreg(); // needs validation
+                    int idCarUpdate = uiManager.citIntreg(); // needs validation as per add  function
                     uiManager.afiseaza("Add id client. If there is no client enter 0");
-                    int idClientUpdate = uiManager.citIntreg(); // needs validation
+                    int idClientUpdate = uiManager.citIntreg(); // needs validation as per add  function
                     uiManager.afiseaza("Add parts price");
                     float partsPriceUpdate = uiManager.citFloat();
                     uiManager.afiseaza("Add work price");

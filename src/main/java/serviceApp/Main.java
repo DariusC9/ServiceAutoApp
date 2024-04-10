@@ -18,7 +18,7 @@ public class Main {
         Repository<Transaction> transactionRepository = new InMemoryRepository<>();
         CarService carService = new CarService(carRepository);
         ClientService clientService = new ClientService(clientRepository);
-        TransactionService transactionService = new TransactionService(transactionRepository);
+        TransactionService transactionService = new TransactionService(transactionRepository, carService, clientService);
         UIManager uiManager = new UIManager();
         MainConsole mainConsole = new MainConsole(clientService, carService, transactionService, uiManager);
         mainConsole.runMainConsole();

@@ -8,12 +8,15 @@ import java.util.List;
 
 public class TransactionService {
     private Repository<Transaction> transactionRepository;
-
+    private CarService carService;
+    private ClientService clientService;
     public TransactionService() {
     }
 
-    public TransactionService(Repository<Transaction> transactionRepository) {
+    public TransactionService(Repository<Transaction> transactionRepository, CarService carService, ClientService clientService) {
         this.transactionRepository = transactionRepository;
+        this.carService = carService;
+        this.clientService = clientService;
 
         // Pentru TEST
         this.transactionRepository.save(Transaction.testTransaction);
@@ -33,7 +36,16 @@ public class TransactionService {
         return true;
     }
 
+    public boolean validateTransactionClientId(int idClient) {
+        return !clientService.validateClientId(idClient);
+    }
+
+    public boolean validateTransactionCarId(int idCar) {
+        return !carService.validateCarId(idCar);
+    }
+
     public void addNewTransaction(Transaction transaction) {
+        transaction.setTotalCost(calculateTotalCost(transaction));
         transactionRepository.save(transaction);
     }
 
@@ -49,5 +61,24 @@ public class TransactionService {
                 break;
             }
         }
+    }
+
+    private float calculateTotalCost(Transaction transaction) {
+        float totalCost = 0;
+        List<Car> carList = carService.showCarList();
+        for (Car car : carList) {
+            if (car.getId() == transaction.getId_car()) {
+                if (!car.isHasWaranty()) {
+                    totalCost += transaction.getPartsPrice();
+                }
+                break;
+            }
+        }
+        if (transaction.getId_client() == 0) {
+            totalCost += transaction.getWorkPrice();
+        } else {
+            totalCost += (transaction.getWorkPrice() * 0.9);
+        }
+        return totalCost;
     }
 }
