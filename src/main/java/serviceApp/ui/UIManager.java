@@ -108,9 +108,9 @@ public class UIManager {
 
     public  LocalDate addDate() {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Enter a date [dd. MMM. yyyy]: ");
+        System.out.print("Enter a date [M/d/yyyy]: ");
         String str = scan.nextLine();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd. MMM. yyyy");
-        return LocalDate.parse(str, dtf);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
+        return LocalDate.parse(str, dateFormat);
     }
 }
