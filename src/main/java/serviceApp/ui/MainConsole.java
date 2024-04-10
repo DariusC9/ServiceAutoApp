@@ -137,7 +137,7 @@ public class MainConsole {
                     uiManager.afiseaza("Add a new card client");
                     uiManager.afiseaza("Add an unique id");
                     int idNewClient = uiManager.citIntreg();
-                    boolean idValidated = carService.validateCarId(idNewClient);
+                    boolean idValidated = clientService.validateClientId(idNewClient);
                     while (!idValidated) {
                         uiManager.afiseaza("Duplicate or invalid ID!");
                         idNewClient = uiManager.citIntreg();
@@ -154,7 +154,23 @@ public class MainConsole {
                     clientService.addNewClient(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
                     break;
                 case 3:
-                    uiManager.afiseaza("Actualizeaza un client");
+                    uiManager.afiseaza("Insert the ID for the client that gets updated:  ");
+                    int idUpdateClient = uiManager.citIntreg();
+                    boolean idUpdateValidated = clientService.validateClientId(idUpdateClient);
+                    while (idUpdateValidated) {
+                        uiManager.afiseaza("Duplicate or invalid ID!");
+                        idUpdateClient = uiManager.citIntreg();
+                        idUpdateValidated = clientService.validateClientId(idUpdateClient);
+                    }
+                    uiManager.afiseaza("Add last name");
+                    String lastNameUpdate = uiManager.cititString();
+                    uiManager.afiseaza("Add first name");
+                    String firstNameUpdate = uiManager.cititString();
+                    uiManager.afiseaza("Add a cnp");
+                    double cnpUpdate = uiManager.citDouble(); // needs validation
+                    LocalDate birthdayUpdate = uiManager.addDate();
+                    LocalDate registrationDateUpdate = uiManager.addDate();
+                    clientService.updateCar(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
                     break;
                 case 4:
                     uiManager.afiseaza("Sterge un client");

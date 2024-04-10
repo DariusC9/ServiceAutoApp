@@ -1,5 +1,6 @@
 package serviceApp.service;
 
+import serviceApp.domain.Car;
 import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
@@ -20,5 +21,19 @@ public class ClientService {
 
     public void addNewClient(Client newClient) {
         repository.save(newClient);
+    }
+
+    public void updateCar(Client updateClient) {
+        repository.update(updateClient);
+    }
+
+    public boolean validateClientId (int idNewClient) {
+        List<Client> clientList = repository.findAll();
+        for (Client client : clientList) {
+            if (client.getId() == idNewClient) {
+                return false;
+            }
+        }
+        return true;
     }
 }
