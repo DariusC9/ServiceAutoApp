@@ -5,23 +5,27 @@ import serviceApp.domain.Client;
 import serviceApp.domain.Car;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
+import serviceApp.service.TransactionService;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class MainConsole {
     private ClientService clientService;
-    private UIManager uiManager;
     private CarService carService;
+    private TransactionService transactionService;
+    private UIManager uiManager;
 
     public MainConsole() {
     }
 
     public MainConsole(ClientService clientService,
                        CarService carService,
+                       TransactionService transactionService,
                        UIManager uiManager) {
         this.clientService = clientService;
         this.carService = carService;
+        this.transactionService = transactionService;
         this.uiManager = uiManager;
     }
 
@@ -36,7 +40,7 @@ public class MainConsole {
                     runClientConsole();
                     break;
                 case 3:
-                    uiManager.afiseaza("Meniu Tranzactie");
+                    runTransactionConsole();
                     break;
                 case 4:
                     uiManager.afiseaza("Meniu Prelucrare");
@@ -197,5 +201,8 @@ public class MainConsole {
             }
             optiune = uiManager.optionClientMenu();
         }
+    }
+
+    private void runTransactionConsole() {
     }
 }
