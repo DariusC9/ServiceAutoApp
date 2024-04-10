@@ -18,6 +18,7 @@ public class UIManager {
         int optiune = citIntreg();
         return optiune;
     }
+
     // UIManager(print)
     public void afiseazaOptiuniMeniuPrincipal() {
         afiseaza("");
@@ -50,6 +51,22 @@ public class UIManager {
         afiseaza("2. Show Cars List");
         afiseaza("3. Update Car Info");
         afiseaza("4. Delete Car from List");
+        afiseaza("0. End program");
+    }
+
+    public int optionTransactionMenu() {
+        transactionMenuOptions();
+        afiseaza("Choose an option: ");
+        int optiune = citIntreg();
+        return optiune;
+    }
+
+    public void transactionMenuOptions() {
+        afiseaza("");
+        afiseaza("1. Create a new transaction");
+        afiseaza("2. Show all transactions");
+        afiseaza("3. Update a transaction");
+        afiseaza("4. Delete a transaction");
         afiseaza("0. End program");
     }
 

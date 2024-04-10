@@ -3,6 +3,7 @@ package serviceApp.ui;
 
 import serviceApp.domain.Client;
 import serviceApp.domain.Car;
+import serviceApp.domain.Transaction;
 import serviceApp.service.CarService;
 import serviceApp.service.ClientService;
 import serviceApp.service.TransactionService;
@@ -136,23 +137,19 @@ public class MainConsole {
         }
     }
 
-    public void runClientConsole() {
+    private void runClientConsole() {
         int optiune = uiManager.optionClientMenu();
         while (optiune != 0) {
             switch (optiune) {
                 case 1:
-                    List<Client> list = clientService.showClientList();
-                    uiManager.afiseazaObiecte(list);
-                    break;
-                case 2:
-                    uiManager.afiseaza("Add a new card client");
+                    uiManager.afiseaza("Add a new transaction");
                     uiManager.afiseaza("Add an unique id");
-                    int idNewClient = uiManager.citIntreg();
-                    boolean idValidated = clientService.validateClientId(idNewClient);
+                    int idNewTransaction = uiManager.citIntreg();
+                    boolean idValidated = clientService.validateClientId(idNewTransaction);
                     while (!idValidated) {
                         uiManager.afiseaza("Duplicate or invalid ID!");
-                        idNewClient = uiManager.citIntreg();
-                        idValidated = carService.validateCarId(idNewClient);
+                        idNewTransaction = uiManager.citIntreg();
+                        idValidated = carService.validateCarId(idNewTransaction);
                     }
                     uiManager.afiseaza("Add last name");
                     String lastName = uiManager.cititString();
@@ -162,7 +159,11 @@ public class MainConsole {
                     double cnp = uiManager.citDouble(); // needs validation
                     LocalDate birthday = uiManager.addDate();
                     LocalDate registrationDate = uiManager.addDate();
-                    clientService.addNewClient(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
+                    clientService.addNewClient(new Client(idNewTransaction, lastName, firstName, cnp, birthday, registrationDate));
+                    break;
+                case 2:
+                    List<Client> list = clientService.showClientList();
+                    uiManager.afiseazaObiecte(list);
                     break;
                 case 3:
                     uiManager.afiseaza("Insert the ID for the client that gets updated:  ");
@@ -202,7 +203,74 @@ public class MainConsole {
             optiune = uiManager.optionClientMenu();
         }
     }
-
-    private void runTransactionConsole() {
+    public void runTransactionConsole() {
+        int optiune = uiManager.optionTransactionMenu();
+        while (optiune != 0) {
+            switch (optiune) {
+                case 1:
+                    uiManager.afiseaza("Add a new transaction");
+                    uiManager.afiseaza("Add an unique id");
+                    int idNewTrans = uiManager.citIntreg();
+                    boolean idValidated = transactionService.validateTransactionId(idNewTrans);
+                    while (!idValidated) {
+                        uiManager.afiseaza("Duplicate or invalid ID!");
+                        idNewTrans = uiManager.citIntreg();
+                        idValidated = transactionService.validateTransactionId(idNewTrans);
+                    }
+                    uiManager.afiseaza("Add id car");
+                    int idCar = uiManager.citIntreg(); // needs validation
+                    uiManager.afiseaza("Add id client. If there is no client enter 0");
+                    int idClient = uiManager.citIntreg(); // needs validation
+                    uiManager.afiseaza("Add parts price");
+                    float partsPrice = uiManager.citFloat();
+                    uiManager.afiseaza("Add work price");
+                    float workPrice = uiManager.citFloat();
+                    uiManager.afiseaza("Add date repair date");
+                    LocalDate dateHour = uiManager.addDate();
+                    transactionService.addNewTransaction(new Transaction(idNewTrans, idCar, idClient, partsPrice, workPrice, dateHour));
+                    break;
+                case 2:
+                    List<Transaction> list = transactionService.showTransactionList();
+                    uiManager.afiseazaObiecte(list);
+                break;
+                case 3:
+                    uiManager.afiseaza("Insert the ID for the transaction that gets updated:  ");
+                    int idUpdateTransaction = uiManager.citIntreg();
+                    boolean idUpdateValidated = transactionService.validateTransactionId(idUpdateTransaction);
+                    while (idUpdateValidated) {
+                        uiManager.afiseaza("Duplicate or invalid ID!");
+                        idUpdateTransaction = uiManager.citIntreg();
+                        idUpdateValidated = transactionService.validateTransactionId(idUpdateTransaction);
+                    }
+                    uiManager.afiseaza("Add id car");
+                    int idCarUpdate = uiManager.citIntreg(); // needs validation
+                    uiManager.afiseaza("Add id client. If there is no client enter 0");
+                    int idClientUpdate = uiManager.citIntreg(); // needs validation
+                    uiManager.afiseaza("Add parts price");
+                    float partsPriceUpdate = uiManager.citFloat();
+                    uiManager.afiseaza("Add work price");
+                    float workPriceUpdate = uiManager.citFloat();
+                    uiManager.afiseaza("Add date repair date");
+                    LocalDate dateHourUpdate = uiManager.addDate();
+                    transactionService.updateTransaction(new Transaction(idUpdateTransaction, idCarUpdate, idClientUpdate, partsPriceUpdate, workPriceUpdate, dateHourUpdate));
+                    break;
+                case 4:
+                    uiManager.afiseaza("Insert the ID of the transaction to be deleted: ");
+                    int idDeleteTransaction = uiManager.citIntreg();
+                    boolean idDeleteValidated = transactionService.validateTransactionId(idDeleteTransaction);
+                    if (idDeleteValidated) {
+                        uiManager.afiseaza("The inserted ID was not found in the list!");
+                        break;
+                    }
+                    transactionService.deleteTransaction(idDeleteTransaction);
+                    break;
+                case 0:
+                    uiManager.afiseaza("Close Transaction Menu");
+                    break;
+                default:
+                    uiManager.afiseaza("Introduceti o optiune valida");
+            }
+            optiune = uiManager.optionTransactionMenu();
+        }
     }
 }
