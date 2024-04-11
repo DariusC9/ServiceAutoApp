@@ -67,19 +67,24 @@ public class MainConsole {
                     }
                     break;
                 case 6:
-                    uiManager.displayText("Display transactions by sum");
-                    /*
-                    deci calculam total cost cand adaugam un transaction nou
-                    total cost trebuie afisat in metoda toostring
-                    in transactionService se face o metodat de ordonare care returneaza o lista ordonata
-                    in cadrul metodei returnezi din repo toate transazctile
-                    adaugi toate tranzactile din interval intr-o lista noua
-                    returnezi lista in console
-                     */
+                    uiManager.displayText("Display transactions in given range.");
+                    uiManager.displayText("Insert lower range: ");
+                    int lower = uiManager.readInt();
+                    uiManager.displayText("Insert lower range: ");
+                    int upper =uiManager.readInt();
+                    transactionService.displayCostListRange(lower, upper);
                     break;
                 case 7:
-                    uiManager.displayText("Display client cards by discounted work price.");
+                    //TODO: de inteles ce se vrea (mai ales in legatura cu reducerile)
+                    // si sa se faca ordonarea si afisarea cardurilor nu a tranzactiilor
+                    uiManager.displayText("Display client cards by discounted work price in descending order.");
+                    List<Transaction> orderedList = transactionService.sortListDescendingOrder();
+                    uiManager.displayObjects(orderedList);
                     break;
+
+                    //TODO:  case 8:
+                    // stergerea tranzactiilor dintre 2 date introduse de la tastatura
+                
                 case 0:
                     uiManager.displayText("End program");
                     break;

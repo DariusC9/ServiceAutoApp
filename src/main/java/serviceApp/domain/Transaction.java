@@ -81,6 +81,7 @@ public class Transaction extends BaseId {
                 ", partsPrice = " + partsPrice +
                 ", workPrice = " + workPrice +
                 ", dateHour = " + dateHour +
+                ", totalCost = " + totalCost +
                 '}';
     }
 }
