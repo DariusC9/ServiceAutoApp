@@ -44,12 +44,12 @@ public class TransactionService {
 
     // Validate existence of Client Card ID in database
     public boolean validateTransactionClientId(int idClient) {
-        return !clientService.validateClientId(idClient);
+        return !clientService.validateObjectId(idClient);
     }
 
     // Validate existence of Car ID in database
     public boolean validateTransactionCarId(int idCar) {
-        return !carService.validateCarId(idCar);
+        return !carService.validateObjectId(idCar);
     }
 
     public void addNewTransaction(Transaction transaction) {
@@ -73,7 +73,7 @@ public class TransactionService {
 
     private float calculateTotalCost(Transaction transaction) {
         float totalCost = 0;
-        List<Car> carList = carService.showCarList();
+        List<Car> carList = carService.showObjectList();
         for (Car car : carList) {
             if (car.getId() == transaction.getId_car()) {
                 if (!car.isHasWaranty()) {
