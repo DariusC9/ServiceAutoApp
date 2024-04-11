@@ -4,6 +4,8 @@ import serviceApp.domain.Car;
 import serviceApp.domain.Transaction;
 import serviceApp.repository.Repository;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TransactionService {
@@ -30,7 +32,7 @@ public class TransactionService {
     }
 
     // Validate unique ID
-    public boolean validateTransactionId (int idNewTransaction) {
+    public boolean validateTransactionId(int idNewTransaction) {
         List<Transaction> transactionList = transactionRepository.findAll();
         for (Transaction transactionElement : transactionList) {
             if (transactionElement.getId() == idNewTransaction) {
@@ -83,8 +85,32 @@ public class TransactionService {
         if (transaction.getId_client() == 0) {
             totalCost += transaction.getWorkPrice();
         } else {
-            totalCost += (transaction.getWorkPrice() * 0.9);
+            totalCost += (float) (transaction.getWorkPrice() * 0.9);
         }
+
+        transaction.setTotalCost(totalCost);
         return totalCost;
+    }
+
+    public List<Transaction> sortListDescendingOrder() {
+        List<Transaction> transactionList = transactionRepository.findAll();
+        Collections.sort(transactionList, new Comparator<Transaction>() {
+            @Override
+            public int compare(Transaction t1, Transaction t2) {
+                float cost1 = calculateTotalCost(t1);
+                float cost2 = calculateTotalCost(t2);
+                return Float.compare(cost2, cost1);
+            }
+        });
+        return transactionList;
+    }
+
+    public void displayCostListRange(int lowerRange, int upperRange) {
+        List<Transaction> transactionList = transactionRepository.findAll();
+        for (Transaction transaction : transactionList) {
+            if (transaction.getTotalCost() >= lowerRange && transaction.getTotalCost() <= upperRange) {
+                System.out.println(transaction);
+            }
+        }
     }
 }
