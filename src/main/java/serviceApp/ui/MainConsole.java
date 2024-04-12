@@ -75,16 +75,14 @@ public class MainConsole {
                     transactionService.displayCostListRange(lower, upper);
                     break;
                 case 7:
-                    //TODO: de inteles ce se vrea (mai ales in legatura cu reducerile)
-                    // si sa se faca ordonarea si afisarea cardurilor nu a tranzactiilor
                     uiManager.displayText("Display client cards by discounted work price in descending order.");
-                    List<Transaction> orderedList = transactionService.sortListDescendingOrder();
+                    List<Car> orderedList = transactionService.sortListDescendingOrder();
                     uiManager.displayObjects(orderedList);
                     break;
-
-                    //TODO:  case 8:
-                    // stergerea tranzactiilor dintre 2 date introduse de la tastatura
-                
+                case 8:
+                    List<Client> orderedClients = transactionService.displayClientsCardDiscounts();
+                    uiManager.displayObjects(orderedClients);
+                    break;
                 case 0:
                     uiManager.displayText("End program");
                     break;
@@ -104,11 +102,11 @@ public class MainConsole {
                     uiManager.displayText("Add new Car data:");
                     uiManager.displayText("Unique ID: ");
                     int idNewCar = uiManager.readInt();
-                    boolean idValidated = carService.validateCarId(idNewCar);
+                    boolean idValidated = carService.validateObjectId(idNewCar);
                     while (!idValidated) {
                         uiManager.displayText("Duplicate or invalid ID!");
                         idNewCar = uiManager.readInt();
-                        idValidated = carService.validateCarId(idNewCar);
+                        idValidated = carService.validateObjectId(idNewCar);
                     }
                     uiManager.displayText("Car model: ");
                     String model = uiManager.readString();
@@ -124,17 +122,17 @@ public class MainConsole {
                     } else {
                         hasWaranty = false;
                     }
-                    carService.addNewCar(new Car(idNewCar, model, yearAcquisition, numKm, hasWaranty));
+                    carService.addNewObject(new Car(idNewCar, model, yearAcquisition, numKm, hasWaranty));
                     break;
                 case 2:
                     uiManager.displayText("Show Cars List");
-                    List<Car> carList = carService.showCarList();
+                    List<Car> carList = carService.showObjectList();
                     uiManager.displayObjects(carList);
                     break;
                 case 3:
                     uiManager.displayText("Insert the ID for the car that gets updated: ");
                     int idUpdateCar = uiManager.readInt();
-                    boolean idUpdateValidated = carService.validateCarId(idUpdateCar);
+                    boolean idUpdateValidated = carService.validateObjectId(idUpdateCar);
                     if (idUpdateValidated) {
                         uiManager.displayText("The inserted ID was not found in the list!");
                         break;
@@ -154,17 +152,17 @@ public class MainConsole {
                         hasWarantyUpdate = false;
                     }
                     Car updateCar = new Car(idUpdateCar, modelUpdate, yearAcquisitionUpdate, numKmUpdate, hasWarantyUpdate);
-                    carService.updateCar(updateCar);
+                    carService.updateObject(updateCar);
                     break;
                 case 4:
                     uiManager.displayText("Insert the ID of the Car to be deleted: ");
                     int idDeleteCar = uiManager.readInt();
-                    boolean idDeleteValidated = carService.validateCarId(idDeleteCar);
+                    boolean idDeleteValidated = carService.validateObjectId(idDeleteCar);
                     if (idDeleteValidated) {
                         uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
-                    carService.deleteCar(idDeleteCar);
+                    carService.deleteObject(idDeleteCar);
                     break;
                 case 0:
                     uiManager.displayText("Close Car Menu");
@@ -185,11 +183,11 @@ public class MainConsole {
                     uiManager.displayText("Add a new Client Card");
                     uiManager.displayText("Add an unique id");
                     int idNewClient = uiManager.readInt();
-                    boolean idValidated = clientService.validateClientId(idNewClient);
+                    boolean idValidated = clientService.validateObjectId(idNewClient);
                     while (!idValidated) {
                         uiManager.displayText("Duplicate or invalid ID!");
                         idNewClient = uiManager.readInt();
-                        idValidated = clientService.validateClientId(idNewClient);
+                        idValidated = clientService.validateObjectId(idNewClient);
                     }
                     uiManager.displayText("Add last name");
                     String lastName = uiManager.readString();
@@ -197,23 +195,24 @@ public class MainConsole {
                     String firstName = uiManager.readString();
                     uiManager.displayText("Add a cnp");
                     double cnp = uiManager.readDouble(); // TODO: needs validation
-
+                    uiManager.displayText("Add birthday");
                     LocalDate birthday = uiManager.addDate(); //TODO: NEEDS ERROR handling
+                    uiManager.displayText("Add registration date");
                     LocalDate registrationDate = uiManager.addDate();
-                    clientService.addNewClient(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
+                    clientService.addNewObject(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
                     break;
                 case 2:
-                    List<Client> list = clientService.showClientList();
+                    List<Client> list = clientService.showObjectList();
                     uiManager.displayObjects(list);
                     break;
                 case 3:
                     uiManager.displayText("Insert the ID for the client that gets updated:  ");
                     int idUpdateClient = uiManager.readInt();
-                    boolean idUpdateValidated = clientService.validateClientId(idUpdateClient);
+                    boolean idUpdateValidated = clientService.validateObjectId(idUpdateClient);
                     while (idUpdateValidated) {
                         uiManager.displayText("Duplicate or invalid ID!");
                         idUpdateClient = uiManager.readInt();
-                        idUpdateValidated = clientService.validateClientId(idUpdateClient);
+                        idUpdateValidated = clientService.validateObjectId(idUpdateClient);
                     }
                     uiManager.displayText("Add last name");
                     String lastNameUpdate = uiManager.readString();
@@ -223,17 +222,17 @@ public class MainConsole {
                     double cnpUpdate = uiManager.readDouble(); // TODO: needs validation
                     LocalDate birthdayUpdate = uiManager.addDate(); //TODO: NEEDS ERROR handling
                     LocalDate registrationDateUpdate = uiManager.addDate();
-                    clientService.updateCar(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
+                    clientService.updateObject(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
                     break;
                 case 4:
                     uiManager.displayText("Insert the ID of the Client to be deleted: ");
                     int idDeleteClient = uiManager.readInt();
-                    boolean idDeleteValidated = clientService.validateClientId(idDeleteClient);
+                    boolean idDeleteValidated = clientService.validateObjectId(idDeleteClient);
                     if (idDeleteValidated) {
                         uiManager.displayText("The inserted ID was not found in the list!");
                         break;
                     }
-                    clientService.deleteClient(idDeleteClient);
+                    clientService.deleteObject(idDeleteClient);
                     break;
                 case 0:
                     uiManager.displayText("Close Client Menu");

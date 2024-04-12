@@ -39,4 +39,13 @@ public class InMemoryRepository<T extends BaseId> implements Repository<T> {
             }
         }
     }
+
+    public T findById(int id) {
+        for (T object: database) {
+            if (object.getId() == id) {
+                return object;
+            }
+        }
+        return null;
+    }
 }

@@ -1,52 +1,19 @@
 package serviceApp.service;
 
+import serviceApp.domain.Car;
 import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientService {
-    private Repository<Client> repository;
+public class ClientService extends SimpleObjectService<Client> {
     public ClientService() { }
     public ClientService(Repository<Client> repository) {
-        this.repository = repository;
-        this.repository.save(Client.testClient);
-        this.repository.save(Client.testClient);
-    }
+        super(repository);
 
-    public List<Client> showClientList() {
-        return repository.findAll();
+        repository.save(Client.testClient);
     }
-
-    public void addNewClient(Client newClient) {
-        repository.save(newClient);
-    }
-
-    public void updateCar(Client updateClient) {
-        repository.update(updateClient);
-    }
-
-    public boolean validateClientId (int idNewClient) {
-        List<Client> clientList = repository.findAll();
-        for (Client client : clientList) {
-            if (client.getId() == idNewClient) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void deleteClient(int idDeleteClient) {
-        List<Client> clientList = repository.findAll();
-        for (Client client : clientList) {
-            if (client.getId() == idDeleteClient) {
-                repository.delete(client);
-                break;
-            }
-        }
-    }
-
     public List<Client> searchByLastName(String searchName) {
         List<Client> cardList = repository.findAll();
         List<Client> result = new ArrayList<>();
@@ -56,5 +23,9 @@ public class ClientService {
             }
         }
         return result;
+    }
+
+    public Client searchById(int idClient) {
+        return repository.findById(idClient);
     }
 }

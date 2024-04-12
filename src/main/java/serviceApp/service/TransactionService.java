@@ -1,12 +1,11 @@
 package serviceApp.service;
 
 import serviceApp.domain.Car;
+import serviceApp.domain.Client;
 import serviceApp.domain.Transaction;
 import serviceApp.repository.Repository;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TransactionService {
     private Repository<Transaction> transactionRepository;
@@ -44,12 +43,12 @@ public class TransactionService {
 
     // Validate existence of Client Card ID in database
     public boolean validateTransactionClientId(int idClient) {
-        return !clientService.validateClientId(idClient);
+        return !clientService.validateObjectId(idClient);
     }
 
     // Validate existence of Car ID in database
     public boolean validateTransactionCarId(int idCar) {
-        return !carService.validateCarId(idCar);
+        return !carService.validateObjectId(idCar);
     }
 
     public void addNewTransaction(Transaction transaction) {
@@ -73,7 +72,7 @@ public class TransactionService {
 
     private float calculateTotalCost(Transaction transaction) {
         float totalCost = 0;
-        List<Car> carList = carService.showCarList();
+        List<Car> carList = carService.showObjectList();
         for (Car car : carList) {
             if (car.getId() == transaction.getId_car()) {
                 if (!car.isHasWaranty()) {
@@ -82,27 +81,38 @@ public class TransactionService {
                 break;
             }
         }
-        if (transaction.getId_client() == 0) {
-            totalCost += transaction.getWorkPrice();
-        } else {
-            totalCost += (float) (transaction.getWorkPrice() * 0.9);
-        }
-
-        transaction.setTotalCost(totalCost);
+        totalCost += calculateTotalWorkCost(transaction);
         return totalCost;
     }
 
-    public List<Transaction> sortListDescendingOrder() {
+    public List<Car> sortListDescendingOrder() {
         List<Transaction> transactionList = transactionRepository.findAll();
+        List<Car> sortedCars = new ArrayList<>();
         Collections.sort(transactionList, new Comparator<Transaction>() {
             @Override
             public int compare(Transaction t1, Transaction t2) {
-                float cost1 = calculateTotalCost(t1);
-                float cost2 = calculateTotalCost(t2);
+                float cost1 = calculateTotalWorkCost(t1);
+                float cost2 = calculateTotalWorkCost(t2);
                 return Float.compare(cost2, cost1);
             }
         });
-        return transactionList;
+       for (Transaction transaction : transactionList) {
+           Car car = carService.searchById(transaction.getId_car());
+           if (car != null) {
+               sortedCars.add(car);
+           }
+       }
+       return sortedCars;
+    }
+
+    private float calculateTotalWorkCost(Transaction transaction) {
+        float result = 0;
+        if (transaction.getId_client() == 0) {
+            result += transaction.getWorkPrice();
+        } else {
+            result += (float) (transaction.getWorkPrice() * 0.9);
+        }
+        return result;
     }
 
     public void displayCostListRange(int lowerRange, int upperRange) {
@@ -112,5 +122,32 @@ public class TransactionService {
                 System.out.println(transaction);
             }
         }
+    }
+
+    public List<Client> displayClientsCardDiscounts() {
+        List<Transaction> transactionList = transactionRepository.findAll();
+        List<Client> result = new ArrayList<>();
+        HashMap<Integer, Float> map = new HashMap<>();
+        for (Transaction transaction : transactionList) {
+            float discount = 0;
+            int idClient = transaction.getId_client();
+            if (idClient != 0) {
+                discount = (float) (transaction.getWorkPrice() * 0.1);
+                if (map.containsKey(idClient)) {
+                    float oldDiscountValue = map.get(idClient);
+                    map.put(idClient, (oldDiscountValue + discount));
+                } else {
+                    map.put(idClient, discount);
+                }
+            }
+        }
+        List<Map.Entry<Integer, Float>> sortedList = new ArrayList<>(map.entrySet());
+        sortedList.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Integer, Float> entry : sortedList.reversed()) {
+            Client client = clientService.searchById(entry.getKey());
+            result.add(client);
+        }
+        return  result;
     }
 }
