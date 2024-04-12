@@ -2,6 +2,7 @@ package serviceApp.service;
 
 import serviceApp.domain.BaseId;
 import serviceApp.domain.Car;
+import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ import java.util.concurrent.ExecutionException;
 public class CarService extends SimpleObjectService<Car> {
     public CarService() {
     }
-
     public CarService(Repository<Car> carRepository) {
         super(carRepository);
+
+        repository.save(Car.testCar);
     }
     public List<Car> searchByCarModel(String searchModel) {
         List<Car> carList = repository.findAll();
@@ -24,5 +26,9 @@ public class CarService extends SimpleObjectService<Car> {
             }
         }
         return result;
+    }
+
+    public Car searchById(int idCar) {
+        return repository.findById(idCar);
     }
 }

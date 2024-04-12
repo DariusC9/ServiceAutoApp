@@ -29,7 +29,8 @@ public class UIManager {
         displayText("4. Search Car in database");
         displayText("5. Search Client Card by Last Name");
         displayText("6. Display transactions by sum");
-        displayText("7. Display Client Cards by discounted work price");
+        displayText("7. Display Cars by total work price");
+        displayText("8. Display Client Cards by total discounts");
         displayText("0. End program");
     }
   
@@ -132,7 +133,6 @@ public class UIManager {
     }
 
     public  LocalDate addDate() {
-        //TODO: NEEDS ERROR HANDLING
         try {
             Scanner scan = new Scanner(System.in);
             System.out.print("Enter a date [M/d/yyyy]: ");

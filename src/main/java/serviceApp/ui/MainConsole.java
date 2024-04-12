@@ -75,16 +75,14 @@ public class MainConsole {
                     transactionService.displayCostListRange(lower, upper);
                     break;
                 case 7:
-                    //TODO: de inteles ce se vrea (mai ales in legatura cu reducerile)
-                    // si sa se faca ordonarea si afisarea cardurilor nu a tranzactiilor
                     uiManager.displayText("Display client cards by discounted work price in descending order.");
-                    List<Transaction> orderedList = transactionService.sortListDescendingOrder();
+                    List<Car> orderedList = transactionService.sortListDescendingOrder();
                     uiManager.displayObjects(orderedList);
                     break;
-
-                    //TODO:  case 8:
-                    // stergerea tranzactiilor dintre 2 date introduse de la tastatura
-                
+                case 8:
+                    List<Client> orderedClients = transactionService.displayClientsCardDiscounts();
+                    uiManager.displayObjects(orderedClients);
+                    break;
                 case 0:
                     uiManager.displayText("End program");
                     break;
@@ -197,8 +195,9 @@ public class MainConsole {
                     String firstName = uiManager.readString();
                     uiManager.displayText("Add a cnp");
                     double cnp = uiManager.readDouble(); // TODO: needs validation
-
+                    uiManager.displayText("Add birthday");
                     LocalDate birthday = uiManager.addDate(); //TODO: NEEDS ERROR handling
+                    uiManager.displayText("Add registration date");
                     LocalDate registrationDate = uiManager.addDate();
                     clientService.addNewObject(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
                     break;

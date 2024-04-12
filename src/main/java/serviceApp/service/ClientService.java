@@ -1,5 +1,6 @@
 package serviceApp.service;
 
+import serviceApp.domain.Car;
 import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
@@ -10,6 +11,8 @@ public class ClientService extends SimpleObjectService<Client> {
     public ClientService() { }
     public ClientService(Repository<Client> repository) {
         super(repository);
+
+        repository.save(Client.testClient);
     }
     public List<Client> searchByLastName(String searchName) {
         List<Client> cardList = repository.findAll();
@@ -20,5 +23,9 @@ public class ClientService extends SimpleObjectService<Client> {
             }
         }
         return result;
+    }
+
+    public Client searchById(int idClient) {
+        return repository.findById(idClient);
     }
 }

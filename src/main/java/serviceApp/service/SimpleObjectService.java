@@ -26,8 +26,8 @@ public abstract class SimpleObjectService<T extends BaseId> {
 
     public boolean validateObjectId (int idNewObject) {
         List<T> objectList = repository.findAll();
-        for (T client : objectList) {
-            if (client.getId() == idNewObject) {
+        for (T object : objectList) {
+            if (object.getId() == idNewObject) {
                 return false;
             }
         }
