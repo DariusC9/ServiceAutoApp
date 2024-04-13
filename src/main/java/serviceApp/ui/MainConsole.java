@@ -83,6 +83,11 @@ public class MainConsole {
                     List<Client> orderedClients = transactionService.displayClientsCardDiscounts();
                     uiManager.displayObjects(orderedClients);
                     break;
+                case 9:
+                    carService.updateWaranty();
+                    List<Car> carsUpdated = carService.showObjectList();
+                    uiManager.displayObjects(carsUpdated);
+                    break;
                 case 0:
                     uiManager.displayText("End program");
                     break;
