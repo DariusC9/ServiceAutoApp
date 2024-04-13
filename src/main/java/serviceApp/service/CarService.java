@@ -1,13 +1,10 @@
 package serviceApp.service;
 
-import serviceApp.domain.BaseId;
 import serviceApp.domain.Car;
-import serviceApp.domain.Client;
 import serviceApp.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class CarService extends SimpleObjectService<Car> {
     public CarService() {
@@ -26,6 +23,15 @@ public class CarService extends SimpleObjectService<Car> {
             }
         }
         return result;
+    }
+
+    public void updateWaranty() {
+        List<Car> carList = repository.findAll();
+        for (Car carElem : carList) {
+            if (carElem.getNumKm() > 60000) {
+                carElem.setHasWaranty(false);
+            }
+        }
     }
 
     public Car searchById(int idCar) {
