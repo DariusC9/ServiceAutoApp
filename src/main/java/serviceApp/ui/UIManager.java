@@ -32,6 +32,7 @@ public class UIManager {
         displayText("7. Display Cars by total work price");
         displayText("8. Display Client Cards by total discounts");
         displayText("9. Update Waranties ");
+        displayText("10. Delete transactions between 2 dates");
         displayText("0. End program");
     }
   

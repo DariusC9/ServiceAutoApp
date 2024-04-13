@@ -88,6 +88,15 @@ public class MainConsole {
                     List<Car> carsUpdated = carService.showObjectList();
                     uiManager.displayObjects(carsUpdated);
                     break;
+                case 10:
+                    uiManager.displayText("Insert starting date: ");
+                    LocalDate startDate= uiManager.addDate();
+                    uiManager.displayText("Insert ending date: ");
+                    LocalDate endDate = uiManager.addDate();
+                    transactionService.deleteTransactionsBetweenDates(startDate, endDate);
+                    List<Transaction> newTransactions = transactionService.showTransactionList();
+                    uiManager.displayObjects(newTransactions);
+                    break;
                 case 0:
                     uiManager.displayText("End program");
                     break;

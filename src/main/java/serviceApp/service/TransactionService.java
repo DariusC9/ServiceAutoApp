@@ -5,6 +5,7 @@ import serviceApp.domain.Client;
 import serviceApp.domain.Transaction;
 import serviceApp.repository.Repository;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class TransactionService {
@@ -149,5 +150,18 @@ public class TransactionService {
             result.add(client);
         }
         return  result;
+    }
+
+    public void deleteTransactionsBetweenDates(LocalDate startDate, LocalDate endDate) {
+        List<Transaction> transactionList = transactionRepository.findAll();
+        Iterator<Transaction> iterator = transactionList.iterator();
+        while (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+            LocalDate transactionDate = transaction.getDateHour();
+
+            if (transactionDate.isAfter(startDate) && transactionDate.isBefore(endDate)) {
+                iterator.remove();
+            }
+        }
     }
 }
