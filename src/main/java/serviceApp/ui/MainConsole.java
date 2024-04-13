@@ -194,9 +194,16 @@ public class MainConsole {
                     uiManager.displayText("Add first name");
                     String firstName = uiManager.readString();
                     uiManager.displayText("Add a cnp");
-                    double cnp = uiManager.readDouble(); // TODO: needs validation
+                    float cnp = uiManager.readFloat();
+                    boolean cnpValidated = clientService.isCnpUnique(cnp);
+                    System.out.println(cnpValidated);
+                    while (!cnpValidated) {
+                        uiManager.displayText("The cnp must be unique");
+                        cnp = uiManager.readFloat();
+                        cnpValidated = clientService.isCnpUnique(cnp);
+                    }
                     uiManager.displayText("Add birthday");
-                    LocalDate birthday = uiManager.addDate(); //TODO: NEEDS ERROR handling
+                    LocalDate birthday = uiManager.addDate();
                     uiManager.displayText("Add registration date");
                     LocalDate registrationDate = uiManager.addDate();
                     clientService.addNewObject(new Client(idNewClient, lastName, firstName, cnp, birthday, registrationDate));
@@ -219,8 +226,15 @@ public class MainConsole {
                     uiManager.displayText("Add first name");
                     String firstNameUpdate = uiManager.readString();
                     uiManager.displayText("Add a cnp");
-                    double cnpUpdate = uiManager.readDouble(); // TODO: needs validation
-                    LocalDate birthdayUpdate = uiManager.addDate(); //TODO: NEEDS ERROR handling
+                    float cnpUpdate = uiManager.readFloat();
+                    boolean cnpUpdateValidated = clientService.isCnpUnique(cnpUpdate);
+                    System.out.println(cnpUpdateValidated);
+                    while (!cnpUpdateValidated) {
+                        uiManager.displayText("The cnp must be unique");
+                        cnpUpdate = uiManager.readFloat();
+                        cnpUpdateValidated = clientService.isCnpUnique(cnpUpdate);
+                    }
+                    LocalDate birthdayUpdate = uiManager.addDate();
                     LocalDate registrationDateUpdate = uiManager.addDate();
                     clientService.updateObject(new Client(idUpdateClient, lastNameUpdate, firstNameUpdate, cnpUpdate, birthdayUpdate, registrationDateUpdate));
                     break;
@@ -243,7 +257,6 @@ public class MainConsole {
             optiune = uiManager.optionClientMenu();
         }
     }
-
     // Transaction Menu Console (when closed, go back to main menu)
     public void runTransactionConsole() {
         int optiune = uiManager.optionTransactionMenu();

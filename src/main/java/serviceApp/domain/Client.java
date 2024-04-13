@@ -5,14 +5,14 @@ import java.time.LocalDate;
 public class Client extends BaseId {
     private String lastName;
     private String firstName;
-    private double cnp;
+    private float cnp;
     private LocalDate birthday;
     private LocalDate registrationDate;
 
     public Client() {
     }
 
-    public Client(int id, String lastName, String firstName, double cnp, LocalDate birthday, LocalDate registrationDate) {
+    public Client(int id, String lastName, String firstName, float cnp, LocalDate birthday, LocalDate registrationDate) {
         super(id);
         this.lastName = lastName;
         this.firstName = firstName;
@@ -39,11 +39,11 @@ public class Client extends BaseId {
         this.firstName = firstName;
     }
 
-    public double getCnp() {
+    public float getCnp() {
         return cnp;
     }
 
-    public void setCnp(double cnp) {
+    public void setCnp(float cnp) {
         this.cnp = cnp;
     }
 
